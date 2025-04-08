@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../style.css">
 
 </head>
-<body>
+<body class="resume">
   <nav>
     <a href="/portfolio/">Home</a>
     <a href="/portfolio/projects/">Projects</a>
@@ -16,7 +16,7 @@
     <a href="https://github.com/viki-sh" target="_blank">GitHub</a>
   </nav>
       <section>
-        <header> 
+        <header class="name"> 
           <h1>Viki Shi</h1>
           <p>
             <a href="https://www.linkedin.com/in/viki-shi" target="_blank">Linkedin</a> |
@@ -31,12 +31,9 @@
             <h1>Education</h1>
         </header>
         <article>
-            <p>University of California, San Diego | San Diego, CA</p>
-            <p>
-              <time datetime="2023-09">September 2023</time> – 
-              <time datetime="2026-06">June 2026</time>
-            </p>
-            <p>B.S. in Data Science </p>
+          <p><strong>University of California, San Diego</strong> | San Diego, CA</p>
+          <p class="dates">September 2023 – June 2026</p>
+          <p class="coursework">Relevant Coursework: Data Structures and Algorithms, Data Management, Data Visualization, Application of Data Science, Mathematical Theory of Machine Learning <p>
         </article>
     </section>
 
@@ -45,41 +42,41 @@
             <h1>Experience</h1>
         </header>
         <article>
-            <p> TESIAC | Data Science Intern | San Diego </p>
+            <p class="role"> TESIAC | Data Science Intern | San Diego </p>
             <p>
               <time datetime="2024-11">November 2024</time> – 
               <time datetime="2025-06">Current</time>
             </p>
-            <p> 
+            <ul> 
                 <li>Assessed mobility gaps in Mission Valley and La Jolla  by conducting community surveys, engaging with local businesses, and submitting data requests to hospitals and public facilities. </li>
                 <li>Utilized Python and SQL for statistical analysis and geospatial mapping, producing actionable insights on optimal routes, vehicle types, and consumer cost sensitivity.</li>
                 <li>Authored a comprehensive, data-driven urban planning report recommending autonomous shuttles, expanded cycling networks, and EV charging infrastructure, contributing to policy discussions on sustainable transit solutions. </li>
-                </p>
+            </ul>
         </article>
 
         <article>
-            <p> UC San Diego | CSE Undergraduate Instructional Assistant | San Diego </p>
+            <p class="role"> UC San Diego | CSE Undergraduate Instructional Assistant | San Diego </p>
             <p>
               <time datetime="2024-07">July 2024</time> – 
               <time datetime="2024-09">September 2024</time>
             </p>
-            <p> 
+            <ul> 
                 <li>Introduced 50+ incoming UCSD students to data structures, algorithms, and machine learning concepts by designing and evaluating Python-based programming assignments, enhancing their technical foundation. </li>
                 <li>Mentored students one-on-one to build confidence in Python, web development (HTML, CSS, JavaScript), and ML tools, resulting in improved coding proficiency and problem-solving skills.</li>
                 <li>Lead tech project manager of the creation of 25+ projects in web development, machine learning, and computer engineering </li>
-                </p>
+            </ul>
         </article>
 
         <article>
-            <p> Data Science Student Society | Board Member | San Diego </p>
+            <p class="role"> Data Science Student Society | Board Member | San Diego </p>
             <p>
               <time datetime="2023-09"> September 2023</time> – 
               <time datetime="2025-06">Current</time>
             </p>
-            <p> 
+            <ul> 
                 <li>Managed operations for a 400+ member organization by coordinating technical workshops and networking events, resulting in enhanced student learning and professional development opportunities. </li>
                 <li>Organized data science hackathons and speaker panels, connecting students with industry professionals in AI, data analytics, and software engineering, leading to increased engagement and career growth opportunities for participants.</li>
-                </p>
+            </ul>
         </article>
 
 
@@ -90,32 +87,47 @@
             <h1>Projects</h1>
         </header>
         <article>
-            <p> League of Legends Prediction and Recommendation Model </p>
+          <p class="role"> League of Legends Prediction and Recommendation Model </p>
             <p>
               <time datetime="2025-02"> February 2025</time> 
             </p>
-            <p> 
+            <ul> 
                 <li>Web scraped data for 150+ champions from League of Legends’ public website using BeautifulSoup to analyze champion statistics, counter picks, team synergy, and win rates.</li>
                 <li>Developed a Random Forest classification model with Scikit-learn to predict win probability based on pre-game factors. </li>
                 <li>Designed a champion recommendation system using a Scikit-learn pipeline incorporating MultiLabelBinarizer, OneHotEncoder, TF-IDF Vectorizer, and cosine similarity to identify top 10 champions aligned with user-selected playstyles.
                     Built a full-stack interactive web application featuring a Flask-based REST API backend, allowing users to view ML predictions and filter champions by skills and attributes to enhance gameplay strategy.
                     </li>
-                </p>
+                  </ul>
         </article>
 
         <article>
-            <p> Sharp Healthcare Voice Assistant </p>
+          <p class="role"> Sharp Healthcare Voice Assistant </p>
             <p>
-              <time datetime="2025-10">October 2025</time> 
+              <time datetime="2024-10">October 2025</time> 
             </p>
-            <p> 
+            <ul> 
                 <li>Developed a Node.js-based virtual voice assistant integrated with OpenAI's real-time API to support appointment scheduling, prescription management, and billing inquiries via function calling.
                 </li>
                 <li>Applied sentiment analysis and BERT transformer models through AWS Lambda functions to extract key insights from user transcripts, storing results in a DynamoDB database for provider reference.
                 </li>
                 <li>Built an efficient server using the Fastify framework to handle WebSocket connections and manage real-time audio data streams for seamless voice interactions.
                 </li>
-                </p>
+              </ul>
+        </article>
+
+        <article>
+          <p class="role"> StanScan.ai - Web Application </p>
+            <p>
+              <time datetime="2025-04">April 2025</time> 
+            </p>
+            <ul> 
+                <li>Developed a web app that allows users to search for any celebrity and view a letter-grade public sentiment score with an interactive timeline of sentiment and popularity trends.
+                </li>
+                <li>Web scraped celebrities from FamousBirthdays.com using BeautifulSoup and integrated Google Trends API
+                </li>
+                <li>Queried Google Search API to collect and organize over 3,000 news articles by celebrity and year, building a searchable media coverage database, then applied DistilBERT for sentiment analysis
+                </li>
+              </ul>
         </article>
 
     </section>
@@ -125,10 +137,15 @@
             <h1>Skills</h1>
         </header>
         <article>
-            <p> Programming Languages: </p>
-                <li> Python, Java, SQL, JavaScript, HTML, CSS, MATLAB </li>
-            <p> Frameworks and Technologies:</p>
-                <li> Pandas, NumPy, Scikit-learn, Tableau, Matplotlib, Seaborn, React </li>
+          <p class="role">Programming Languages</p>
+          <ul>
+            <li>Python, Java, SQL, JavaScript, HTML, CSS, MATLAB</li>
+          </ul>
+          
+          <p class="role">Frameworks and Technologies</p>
+          <ul>
+            <li>Pandas, NumPy, Scikit-learn, Tableau, Matplotlib, Seaborn, React, BeautifulSoup, Plotly</li>
+          </ul>
         </article>
 
     </section>
