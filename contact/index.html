@@ -1,44 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
-    <link rel="stylesheet" href="\portfolio\style.css">
-    <script type="module" src="/portfolio/global.js"></script>
-
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script type="module" src="../global.js"></script>
 </head>
 <body>
-  <script type="module" src="../global.js"></script>
 
-  
-  
-    <h1> Contact </h1>
+  <h1>Contact</h1>
 
+  <form action="mailto:vikichenshi@gmail.com" method="POST" enctype="text/plain">
+    <label>
+      Email:
+      <input name="email" type="email" />
+    </label>
+    <br><br>
 
-<form action="mailto:vikichenshi@gmail.com" method="POST" enctype="text/plain">
-  <label>
-    Email:
-    <input name="email" type="email" />
-  </label>
-  <br><br>
+    <label>
+      Subject:
+      <input name="subject" />
+    </label>
+    <br><br>
 
-  <label>
-    Subject:
-    <input name="subject" />
-  </label>
-  <br><br>
+    <label>
+      Body:
+      <textarea name="body"></textarea>
+    </label>
+    <br><br>
 
-  <label>
-    Body:
-    <textarea name="body"></textarea>
-  </label>
-  <br><br>
-
-  <button>Submit</button>
-</form>
+    <button>Submit</button>
+  </form>
 
 </body>
 </html>
