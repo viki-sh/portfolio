@@ -13,16 +13,15 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const BASE_PATH = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? '/'
-  : location.pathname.split('/').slice(0, -1).join('/') + '/';
+const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const BASE_PATH = isLocal ? '/' : '/portfolio/';
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
 for (const page of pages) {
   let url = page.url;
-  if (!url.startsWith('http')) url = BASE_PATH + url;
+  if (!url.startsWith('http')) url = BASE_PATH + page.url; // use original path directly
 
   const a = document.createElement('a');
   a.href = url;
