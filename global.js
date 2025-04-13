@@ -5,10 +5,40 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-const navLinks = $$("nav a");
+const pages = [
+  { url: '', title: 'Home' },
+  { url: 'projects/', title: 'Projects' },
+  { url: 'contact/', title: 'Contact' },
+  { url: 'resume/', title: 'Resume' },
+  { url: 'https://github.com/viki-sh', title: 'GitHub' },
+];
 
-const currentLink = navLinks.find(
-  (a) => a.host === location.host && a.pathname === location.pathname
-);
+const BASE_PATH = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? '/'
+  : '/portfolio/'; 
 
-currentLink?.classList.add("current");
+
+const nav = document.createElement('nav');
+document.body.prepend(nav);
+
+for (const page of pages) {
+  let url = page.url;
+  if (!url.startsWith('http')) {
+    url = BASE_PATH + url;
+  }
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.textContent = page.title;
+
+
+  a.classList.toggle(
+    'current',
+    a.host === location.host && a.pathname === location.pathname
+  );
+
+
+  a.toggleAttribute('target', a.host !== location.host);
+
+  nav.append(a);
+}
