@@ -21,15 +21,16 @@ document.body.prepend(nav);
 
 for (const page of pages) {
   let url = page.url;
-  if (!url.startsWith('http')) url = BASE_PATH + page.url; // use original path directly
+  if (!url.startsWith('http')) url = BASE_PATH + page.url;
 
   const a = document.createElement('a');
   a.href = url;
   a.textContent = page.title;
 
+  const tempLink = new URL(a.href);
   a.classList.toggle(
     'current',
-    a.host === location.host && a.pathname === location.pathname
+    tempLink.pathname === location.pathname
   );
 
   a.toggleAttribute('target', a.host !== location.host);
