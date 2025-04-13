@@ -14,23 +14,24 @@ const pages = [
 ];
 
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const BASE_PATH = isLocal ? '/' : '/portfolio/';
+const REPO = '/portfolio';
+const BASE_PATH = isLocal ? '/' : `${REPO}/`;
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
 for (const page of pages) {
   let url = page.url;
-  if (!url.startsWith('http')) url = BASE_PATH + page.url;
+  let href = url.startsWith('http') ? url : BASE_PATH + url;
 
   const a = document.createElement('a');
-  a.href = url;
+  a.href = href;
   a.textContent = page.title;
 
   const tempLink = new URL(a.href);
   a.classList.toggle(
     'current',
-    tempLink.pathname === location.pathname
+    tempLink.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, '')
   );
 
   a.toggleAttribute('target', a.host !== location.host);
