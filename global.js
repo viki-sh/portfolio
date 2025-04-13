@@ -1,12 +1,10 @@
 // global.js
 console.log("IT’S ALIVE!");
 
-// Utility for selecting multiple elements
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-// List of site pages
 const pages = [
   { url: '', title: 'Home' },
   { url: 'projects/', title: 'Projects' },
@@ -15,37 +13,57 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-// Detect local or GitHub Pages environment
 const BASE_PATH = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? '/'
-  : '/portfolio/';  // <-- adjust if repo name differs
+  ? '/' : '/portfolio/';
 
-// Create and insert <nav> at the top of <body>
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
-// Build links
 for (const page of pages) {
   let url = page.url;
-
-  // Prefix with BASE_PATH if relative
-  if (!url.startsWith('http')) {
-    url = BASE_PATH + url;
-  }
+  if (!url.startsWith('http')) url = BASE_PATH + url;
 
   const a = document.createElement('a');
   a.href = url;
   a.textContent = page.title;
 
-  // Highlight current page
   a.classList.toggle(
     'current',
     a.host === location.host && a.pathname === location.pathname
   );
 
-  // Open external links in new tab
   a.toggleAttribute('target', a.host !== location.host);
-
   nav.append(a);
 }
 
+// Add color scheme switcher UI
+document.body.insertAdjacentHTML(
+  'afterbegin',
+  `
+  <label class="color-scheme">
+    Theme:
+    <select>
+      <option value="light dark">Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+  `
+);
+
+const select = document.querySelector('.color-scheme select');
+
+function setColorScheme(mode) {
+  document.documentElement.style.setProperty('color-scheme', mode);
+  select.value = mode;
+}
+
+if ('colorScheme' in localStorage) {
+  setColorScheme(localStorage.colorScheme);
+}
+
+select.addEventListener('input', (event) => {
+  const mode = event.target.value;
+  localStorage.colorScheme = mode;
+  setColorScheme(mode);
+});
