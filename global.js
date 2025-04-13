@@ -13,8 +13,8 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const BASE_PATH = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? '/' : '/portfolio/';
+const BASE_PATH = location.origin + location.pathname.split('/').slice(0, -1).join('/') + '/';
+
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
