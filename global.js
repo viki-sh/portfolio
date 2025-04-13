@@ -1,4 +1,4 @@
-// global.js
+
 console.log("IT’S ALIVE!");
 
 function $$(selector, context = document) {
@@ -14,16 +14,13 @@ const pages = [
 ];
 
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const REPO = '/portfolio';
-const BASE_PATH = isLocal ? '/' : `${REPO}/`;
+const BASE_PATH = isLocal ? '/' : `${location.origin}/portfolio/`;
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
 for (const page of pages) {
-  let url = page.url;
-  let href = url.startsWith('http') ? url : BASE_PATH + url;
-
+  const href = page.url.startsWith('http') ? page.url : BASE_PATH + page.url;
   const a = document.createElement('a');
   a.href = href;
   a.textContent = page.title;
@@ -38,7 +35,6 @@ for (const page of pages) {
   nav.append(a);
 }
 
-// Add color scheme switcher UI
 document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML(
     'afterbegin',
