@@ -13,8 +13,9 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const BASE_PATH = location.origin + location.pathname.split('/').slice(0, -1).join('/') + '/';
-
+const BASE_PATH = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? '/'
+  : location.pathname.split('/').slice(0, -1).join('/') + '/';
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
@@ -37,33 +38,35 @@ for (const page of pages) {
 }
 
 // Add color scheme switcher UI
-document.body.insertAdjacentHTML(
-  'afterbegin',
-  `
-  <label class="color-scheme">
-    Theme:
-    <select>
-      <option value="light dark">Automatic</option>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-    </select>
-  </label>
-  `
-);
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <label class="color-scheme">
+      Theme:
+      <select>
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    `
+  );
 
-const select = document.querySelector('.color-scheme select');
+  const select = document.querySelector('.color-scheme select');
 
-function setColorScheme(mode) {
-  document.documentElement.style.setProperty('color-scheme', mode);
-  select.value = mode;
-}
+  function setColorScheme(mode) {
+    document.documentElement.style.setProperty('color-scheme', mode);
+    select.value = mode;
+  }
 
-if ('colorScheme' in localStorage) {
-  setColorScheme(localStorage.colorScheme);
-}
+  if ('colorScheme' in localStorage) {
+    setColorScheme(localStorage.colorScheme);
+  }
 
-select.addEventListener('input', (event) => {
-  const mode = event.target.value;
-  localStorage.colorScheme = mode;
-  setColorScheme(mode);
+  select.addEventListener('input', (event) => {
+    const mode = event.target.value;
+    localStorage.colorScheme = mode;
+    setColorScheme(mode);
+  });
 });
