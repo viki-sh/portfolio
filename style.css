@@ -75,7 +75,6 @@ label, button {
   grid-column: 1 / -1;
 }
 
-/* Project Grid */
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
@@ -92,7 +91,6 @@ article h2 {
   margin: 0;
 }
 
-/* Typography */
 h1 {
   font-size: 300%;
 }
@@ -103,7 +101,6 @@ h2, h3, h4, h5, h6 {
   font-size: 150%;
 }
 
-/* Resume Styles */
 .name {
   text-align: center;
 }
