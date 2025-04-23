@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const container = document.querySelector('.projects');
   const title = document.querySelector('.projects-title');
 
+  container.innerHTML = ''; 
+
   projects.forEach(project => {
     renderProjects(project, container, 'h2');
   });
