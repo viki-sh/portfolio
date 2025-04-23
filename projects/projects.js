@@ -2,7 +2,7 @@ import { fetchJSON, renderProjects } from '../global.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const projects = await fetchJSON('../lib/projects.json');
-  console.log('Loaded projects:', projects);
+  console.log('Loaded projects:', projects); // Check the console
 
   const container = document.querySelector('.projects');
   const title = document.querySelector('.projects-title');
