@@ -1,8 +1,23 @@
-import { fetchJSON, renderProjects } from './global.js';
+import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const projects = await fetchJSON('./lib/projects.json');
-    const latestProjects = projects.slice(0, 3);
-    const container = document.querySelector('.projects');
-    renderProjects(latestProjects, container, 'h2');
-  });
+  const projects = await fetchJSON('./lib/projects.json');
+  const latestProjects = projects.slice(0, 3);
+  const container = document.querySelector('.projects');
+  renderProjects(latestProjects, container, 'h2');
+
+  const githubData = await fetchGitHubData('viki-sh');
+  const profileStats = document.querySelector('#profile-stats');
+
+  if (githubData && profileStats) {
+    profileStats.innerHTML = `
+      <h2>My GitHub Stats</h2>
+      <dl>
+        <dt>Public Repos:</dt><dd>${githubData.public_repos}</dd>
+        <dt>Public Gists:</dt><dd>${githubData.public_gists}</dd>
+        <dt>Followers:</dt><dd>${githubData.followers}</dd>
+        <dt>Following:</dt><dd>${githubData.following}</dd>
+      </dl>
+    `;
+  }
+});
