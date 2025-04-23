@@ -8,7 +8,7 @@
     {
         "title": "UC Correlation Analysis",
         "year": "2025",
-        "image": "images/ucs.jpg",
+        "image": "https://viki-sh.github.io/portfolio/images/ucs.jpg",
         "description": "Compared the CS curriculum of all University of California Schools to industry standards using webscraping and publically avaliable data from stack overflow"
     },
     {
