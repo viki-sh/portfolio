@@ -12,9 +12,9 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const BASE_PATH = isLocal ? '/' : `${location.origin}/portfolio/`;
+const BASE_PATH = location.pathname.includes('/projects/') ? '../' : '';
 
+// Create nav element and insert into the page
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
@@ -24,7 +24,7 @@ for (const page of pages) {
   a.href = href;
   a.textContent = page.title;
 
-  const tempLink = new URL(a.href);
+  const tempLink = new URL(a.href, location.origin);
   a.classList.toggle(
     'current',
     tempLink.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, '')
@@ -34,6 +34,7 @@ for (const page of pages) {
   nav.append(a);
 }
 
+// Add theme selector dropdown
 document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML(
     'afterbegin',
