@@ -2,7 +2,7 @@
     {
         "title": "League of Legends Statistical Analysis",
         "year": "2025",
-        "image": "images/league.jpg",
+        "image": "https://viki-sh.github.io/portfolio/images/league.jpg",
         "description": "Built a win/loss predictor trained on 150k ranked matches using Python and scikit-learn."
     },
     {
