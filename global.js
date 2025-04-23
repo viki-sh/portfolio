@@ -12,9 +12,8 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const BASE_PATH = location.pathname.includes('/projects/') ? '../' : '';
+const BASE_PATH = location.pathname.includes('/portfolio/') ? '../' : '';
 
-// Create nav element and insert into the page
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
@@ -34,7 +33,6 @@ for (const page of pages) {
   nav.append(a);
 }
 
-// Add theme selector dropdown
 document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML(
     'afterbegin',
