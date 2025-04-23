@@ -12,7 +12,7 @@ const pages = [
   { url: 'https://github.com/viki-sh', title: 'GitHub' },
 ];
 
-const BASE_PATH = location.pathname.includes('/portfolio/') ? '../' : '';
+const BASE_PATH = '/portfolio/';
 
 const nav = document.createElement('nav');
 document.body.prepend(nav);
