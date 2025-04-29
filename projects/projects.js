@@ -16,30 +16,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // Group projects by year and count them
+  // Group and count projects by year
   const rolledData = d3.rollups(
     projects,
     v => v.length,
     d => d.year
   );
 
-  // Convert to [{ value, label }] format
-  const data = rolledData.map(([year, count]) => ({
-    value: count,
-    label: year
-  }));
+  // Sort years ascending, map to pie data
+  const data = rolledData
+    .sort(([yearA], [yearB]) => +yearA - +yearB)
+    .map(([year, count]) => ({ value: count, label: year }));
 
-  const arcGenerator = d3.arc()
-    .innerRadius(0)
-    .outerRadius(50);
-
-  const sliceGenerator = d3.pie()
-    .value(d => d.value);
-
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  const sliceGenerator = d3.pie().value(d => d.value);
   const arcData = sliceGenerator(data);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  // Draw pie slices
+  // Render pie slices
   arcData.forEach((d, i) => {
     d3.select('#projects-plot')
       .append('path')
@@ -47,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       .attr('fill', colors(i));
   });
 
-  // Draw legend
+  // Render legend
   const legend = d3.select('.legend');
   data.forEach((d, i) => {
     legend.append('li')
