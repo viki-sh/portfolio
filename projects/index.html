@@ -10,17 +10,23 @@
 
   <h1><span class="projects-title"></span> Projects</h1>
 
-  <input class="search-bar" type="search" aria-label="Search projects" placeholder="🔍 Search projects..." />
+  <!-- Search bar for project filtering -->
+  <input 
+    class="search-bar" 
+    type="search" 
+    aria-label="Search projects" 
+    placeholder="🔍 Search projects..." 
+  />
 
   <div class="projects">
+    <!-- Pie chart and legend -->
     <div class="pie-container">
       <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
       <ul class="legend"></ul>
     </div>
 
-    <div class="projects-list">
-      <!-- Project articles will be dynamically added here -->
-    </div>
+    <!-- Dynamic project cards go here -->
+    <div class="projects-list"></div>
   </div>
 
   <script src="../../global.js" type="module" defer></script>
