@@ -16,20 +16,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // D3 code to draw full circle
+  // --- D3 Pie Chart Code ---
+  const data = [1, 2]; // 1 slice vs 2 slices (e.g. 33% and 66%)
+
   const arcGenerator = d3.arc()
     .innerRadius(0)
     .outerRadius(50);
 
-  const arc = arcGenerator({
-    startAngle: 0,
-    endAngle: 2 * Math.PI,
-  });
+  const sliceGenerator = d3.pie();
+  const arcData = sliceGenerator(data);
+  const arcs = arcData.map(d => arcGenerator(d));
 
-  d3.select('#projects-plot')
-    .append('path')
-    .attr('d', arc)
-    .attr('fill', 'red');
+  const colors = ['gold', 'purple'];
+
+  arcs.forEach((arc, idx) => {
+    d3.select('#projects-plot')
+      .append('path')
+      .attr('d', arc)
+      .attr('fill', colors[idx]);
+  });
 });
 
 
