@@ -231,3 +231,10 @@ h2, h3, h4, h5, h6 {
   margin-block: 2em;
   overflow: visible;
 }
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
