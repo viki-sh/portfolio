@@ -17,21 +17,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   let query = '';
   let selectedIndex = -1;
 
-  function rollupProjects(projectsGiven) {
-    return d3.rollups(
-      projectsGiven,
-      v => v.length,
-      d => d.year
-    );
-  }
+  const rolledData = d3.rollups(projects, v => v.length, d => d.year);
+  const pieData = rolledData.map(([year, count]) => ({ label: year, value: count }));
 
-  function renderPieChart(projectsGiven) {
-    const rolledData = rollupProjects(projectsGiven);
-    const data = rolledData.map(([year, count]) => ({ label: year, value: count }));
-
+  function drawPieChart() {
     const sliceGenerator = d3.pie().value(d => d.value);
     const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-    const arcs = sliceGenerator(data);
+    const arcs = sliceGenerator(pieData);
     const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const svg = d3.select('#projects-plot');
@@ -51,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const legend = d3.select('.legend');
     legend.selectAll('li').remove();
 
-    data.forEach((d, i) => {
+    pieData.forEach((d, i) => {
       legend.append('li')
         .attr('style', `--color: ${colors(i)}`)
         .attr('class', 'legend-item')
@@ -74,16 +66,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    const rolledData = rollupProjects(filteredProjects);
-    const labels = rolledData.map(([year]) => year);
-
-    if (selectedIndex !== -1 && labels[selectedIndex]) {
-      const selectedYear = labels[selectedIndex];
+    if (selectedIndex !== -1 && pieData[selectedIndex]) {
+      const selectedYear = pieData[selectedIndex].label;
       filteredProjects = filteredProjects.filter(p => p.year === selectedYear);
     }
 
     renderProjects(filteredProjects, projectsContainer, 'h2');
-    renderPieChart(filteredProjects);
 
     d3.selectAll('path')
       .attr('class', (_, i) => (i === selectedIndex ? 'selected' : null));
@@ -95,6 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (projects && projects.length > 0) {
+    drawPieChart();
     update();
   } else {
     projectsContainer.innerHTML = '<p>No projects found.</p>';
