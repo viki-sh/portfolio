@@ -303,8 +303,7 @@ path {
 }
 
 .home-projects img {
-  width: 100%;
-  max-width: 500px;
+  width: auto;
   height: auto;
   display: block;
   margin: 1rem auto;
