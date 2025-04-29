@@ -283,10 +283,9 @@ path {
   cursor: pointer;
 }
 
-.selected {
-  --color: oklch(68% 45% 0) !important;
+path.selected {
+  stroke: black;
+  stroke-width: 2;
+  opacity: 1;
 }
 
-.selected:is(path) {
-  fill: var(--color);
-}
