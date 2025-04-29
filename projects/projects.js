@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // --- D3 Pie Chart Code ---
-  const data = [1, 2]; // 1 slice vs 2 slices (e.g. 33% and 66%)
+  // --- D3 Pie Chart Code with multiple slices ---
+  const data = [1, 2, 3, 4, 5, 5]; // multiple slices!
 
   const arcGenerator = d3.arc()
     .innerRadius(0)
@@ -27,14 +27,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const arcData = sliceGenerator(data);
   const arcs = arcData.map(d => arcGenerator(d));
 
-  const colors = ['gold', 'purple'];
+  const colors = d3.scaleOrdinal(d3.schemeTableau10); // automatic colors 🎨
 
   arcs.forEach((arc, idx) => {
     d3.select('#projects-plot')
       .append('path')
       .attr('d', arc)
-      .attr('fill', colors[idx]);
+      .attr('fill', colors(idx)); // call colors as a function
   });
 });
+
 
 
