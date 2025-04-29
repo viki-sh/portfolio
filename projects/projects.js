@@ -2,7 +2,13 @@ import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const projects = await fetchJSON('../lib/projects.json');
+  let projects;
+  try {
+    projects = await fetchJSON('../lib/projects.json');
+  } catch (err) {
+    console.error('Error loading projects.json', err);
+    return;
+  }
 
   const projectsContainer = document.querySelector('.projects-list');
   const title = document.querySelector('.projects-title');
@@ -72,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const rolledData = rollupProjects(filteredProjects);
     const labels = rolledData.map(([year]) => year);
 
-    if (selectedIndex !== -1) {
+    if (selectedIndex !== -1 && labels[selectedIndex]) {
       const selectedYear = labels[selectedIndex];
       filteredProjects = filteredProjects.filter(p => p.year === selectedYear);
     }
@@ -80,11 +86,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderProjects(filteredProjects, projectsContainer, 'h2');
     renderPieChart(filteredProjects);
 
-    const allPaths = d3.selectAll('path');
-    allPaths.attr('class', (_, i) => (i === selectedIndex ? 'selected' : null));
+    d3.selectAll('path')
+      .attr('class', (_, i) => (i === selectedIndex ? 'selected' : null));
 
-    const allLegends = d3.selectAll('.legend li');
-    allLegends.attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'));
+    d3.selectAll('.legend li')
+      .attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'));
 
     if (title) title.textContent = filteredProjects.length;
   }
