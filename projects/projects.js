@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const projects = await fetchJSON('../lib/projects.json');
   console.log('Loaded projects:', projects);
 
-  const listContainer = document.querySelector('.projects-list'); // Target only projects-list
+  const listContainer = document.querySelector('.projects-list'); // Target ONLY .projects-list
   const title = document.querySelector('.projects-title');
 
   if (projects && projects.length > 0) {
@@ -15,3 +15,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 });
+
