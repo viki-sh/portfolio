@@ -222,13 +222,13 @@ h2, h3, h4, h5, h6 {
 }
 
 .projects-list article img {
-  max-width: 100%;
-  height: auto;
-  max-height: 250px;
-  object-fit: contain;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
   border-radius: 6px;
   margin-bottom: 0.75rem;
 }
+
 article img {
   max-height: 250px;
   width: auto;
