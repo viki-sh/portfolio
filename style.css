@@ -310,3 +310,12 @@ path {
   margin: 1rem auto;
   border-radius: 10px;
 }
+
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto; 
+}
