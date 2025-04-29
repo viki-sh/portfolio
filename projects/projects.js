@@ -16,30 +16,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // Group project data by year and count them
-  const rolledData = d3.rollups(
-    projects,
-    v => v.length,
-    d => d.year
-  );
+  // Prepare data for the pie chart based on project years
+  const yearCounts = {};
+  projects.forEach(project => {
+    yearCounts[project.year] = (yearCounts[project.year] || 0) + 1;
+  });
 
-  // Sort years ascending and map to { label, value }
-  const data = rolledData
-    .sort(([a], [b]) => +a - +b)
-    .map(([year, count]) => ({
-      label: year,
-      value: count
-    }));
+  const data = Object.entries(yearCounts).map(([year, count]) => ({
+    label: year,
+    value: count
+  }));
 
-  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-  const sliceGenerator = d3.pie().value(d => d.value);
+  const arcGenerator = d3.arc()
+    .innerRadius(0)
+    .outerRadius(50);
+
+  const sliceGenerator = d3.pie()
+    .value(d => d.value);
+
   const arcData = sliceGenerator(data);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
   // Draw pie slices
+  const svg = d3.select('#projects-plot');
   arcData.forEach((d, i) => {
-    d3.select('#projects-plot')
-      .append('path')
+    svg.append('path')
       .attr('d', arcGenerator(d))
       .attr('fill', colors(i));
   });
