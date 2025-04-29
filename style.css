@@ -236,4 +236,46 @@ h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
 
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  margin: 1em auto;
+  padding: 1em;
+  border: 1px solid #ccc;
+  max-width: 600px;
+  list-style: none;
+}
 
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.95rem;
+}
+
+.legend-item .swatch {
+  width: 1em;
+  height: 1em;
+  background-color: var(--color);
+  aspect-ratio: 1;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+
+.pie-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+#projects-plot {
+  max-width: 250px;
+  width: 100%;
+  aspect-ratio: 1;
+}
