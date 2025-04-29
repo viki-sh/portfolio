@@ -11,7 +11,186 @@ body {
   padding: 1rem;
 }
 
-/* Container for pie chart + legend */
+/* Headshot */
+.headshot {
+  width: 500px;
+  height: auto;
+}
+
+/* Color scheme toggle */
+label.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.8em;
+  font-family: inherit;
+}
+
+/* Nav */
+nav {
+  display: flex;
+  margin-bottom: 1rem;
+  --border-color: oklch(50% 10% 200 / 40%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  padding: 0.5em;
+}
+
+nav a.current {
+  border-bottom: 0.4em solid var(--border-color);
+  padding-bottom: 0.1em;
+}
+
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.1em;
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+}
+
+/* Form */
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4em;
+  max-width: 800px;
+  margin-inline: auto;
+  padding-top: 0.5em;
+}
+
+label {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+label,
+button {
+  grid-column: 1 / -1;
+}
+
+/* Headings */
+h1 {
+  font-size: 300%;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+  text-wrap: balance;
+  font-size: 150%;
+}
+
+/* Name Centering */
+.name {
+  text-align: center;
+}
+
+/* Resume Section */
+.resume h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.1em;
+}
+
+.resume p {
+  margin-top: 0.05em;
+  font-size: 100%;
+}
+
+.resume section > header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.resume section {
+  margin-top: 2.5rem;
+  padding-left: 1rem;
+}
+
+.resume .role {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.resume .dates,
+.resume time {
+  font-style: italic;
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0.25em 0 0.75em;
+  display: block;
+}
+
+.resume .coursework {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0.25em 0 0.5em;
+}
+
+.resume ul {
+  margin: 0 0 1.5em 1.5em;
+  padding: 0;
+  list-style-type: disc;
+}
+
+.resume ul li {
+  margin-bottom: 0.5em;
+  line-height: 1.5;
+}
+
+.resume article ul {
+  margin-top: 0.5em;
+}
+
+/* Profile Stats Section */
+#profile-stats {
+  margin-top: 2rem;
+  max-width: 400px;
+  font-family: sans-serif;
+}
+
+#profile-stats h2 {
+  margin-bottom: 0.5rem;
+}
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+}
+
+#profile-stats dt {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+#profile-stats dd {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Projects Section */
+.projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2em;
+}
+
+/* Pie Chart + Legend */
 .pie-container {
   display: flex;
   flex-wrap: wrap;
@@ -29,7 +208,6 @@ body {
   overflow: visible;
 }
 
-/* Legend Styling */
 .legend {
   flex: 1;
   display: grid;
@@ -58,16 +236,7 @@ body {
   display: inline-block;
 }
 
-/* Projects container */
-.projects {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 2em;
-}
-
-/* Projects grid */
+/* Project Cards Grid */
 .projects-list {
   width: 100%;
   max-width: 1200px;
