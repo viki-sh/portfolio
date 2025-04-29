@@ -11,15 +11,14 @@
   <h1><span class="projects-title"></span> Projects</h1>
 
   <div class="projects">
-    <svg id="projects-plot" viewBox="-50 -50 100 100">
-      <!-- D3 will insert the <path> dynamically here -->
-    </svg>
-    <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
-    <ul class="legend"></ul>
-
-    <div class="projects-list">
-      <!-- Project articles will be dynamically added here -->
+    <!-- Group pie chart + legend -->
+    <div class="pie-container">
+      <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
+      <ul class="legend"></ul>
     </div>
+
+    <!-- Project cards rendered dynamically -->
+    <div class="projects-list"></div>
   </div>
 
   <script src="../global.js" type="module" defer></script>

@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // Pie data with labels and values
   const data = [
     { value: 1, label: 'apples' },
     { value: 2, label: 'oranges' },
@@ -26,17 +25,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     { value: 5, label: 'cherries' },
   ];
 
-  const arcGenerator = d3.arc()
-    .innerRadius(0)
-    .outerRadius(50);
-
-  const sliceGenerator = d3.pie()
-    .value(d => d.value);
-
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  const sliceGenerator = d3.pie().value(d => d.value);
   const arcData = sliceGenerator(data);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  // Draw pie slices
   arcData.forEach((d, i) => {
     d3.select('#projects-plot')
       .append('path')
@@ -44,7 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       .attr('fill', colors(i));
   });
 
-  // Draw legend
   const legend = d3.select('.legend');
   data.forEach((d, i) => {
     legend.append('li')
