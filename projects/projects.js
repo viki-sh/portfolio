@@ -16,24 +16,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     listContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  // --- D3 Pie Chart Code with multiple slices ---
-  const data = [1, 2, 3, 4, 5, 5]; // multiple slices!
+  // Pie data with labels and values
+  const data = [
+    { value: 1, label: 'apples' },
+    { value: 2, label: 'oranges' },
+    { value: 3, label: 'mangos' },
+    { value: 4, label: 'pears' },
+    { value: 5, label: 'limes' },
+    { value: 5, label: 'cherries' },
+  ];
 
   const arcGenerator = d3.arc()
     .innerRadius(0)
     .outerRadius(50);
 
-  const sliceGenerator = d3.pie();
+  const sliceGenerator = d3.pie()
+    .value(d => d.value);
+
   const arcData = sliceGenerator(data);
-  const arcs = arcData.map(d => arcGenerator(d));
+  const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  const colors = d3.scaleOrdinal(d3.schemeTableau10); // automatic colors 🎨
-
-  arcs.forEach((arc, idx) => {
+  // Draw pie slices
+  arcData.forEach((d, i) => {
     d3.select('#projects-plot')
       .append('path')
-      .attr('d', arc)
-      .attr('fill', colors(idx)); // call colors as a function
+      .attr('d', arcGenerator(d))
+      .attr('fill', colors(i));
+  });
+
+  // Draw legend
+  const legend = d3.select('.legend');
+  data.forEach((d, i) => {
+    legend.append('li')
+      .attr('style', `--color: ${colors(i)}`)
+      .attr('class', 'legend-item')
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
   });
 });
 
