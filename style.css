@@ -11,6 +11,7 @@ body {
   padding: 1rem;
 }
 
+/* Headshot */
 .headshot {
   width: 500px;
   height: auto;
@@ -75,22 +76,7 @@ label, button {
   grid-column: 1 / -1;
 }
 
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-  gap: 1em;
-}
-
-article {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
-}
-
-article h2 {
-  margin: 0;
-}
-
+/* Headings */
 h1 {
   font-size: 300%;
 }
@@ -101,10 +87,12 @@ h2, h3, h4, h5, h6 {
   font-size: 150%;
 }
 
+/* Name Centering */
 .name {
   text-align: center;
 }
 
+/* Resume Section */
 .resume h1 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -163,6 +151,7 @@ h2, h3, h4, h5, h6 {
   margin-top: 0.5em;
 }
 
+/* Profile Stats Section */
 #profile-stats {
   margin-top: 2rem;
   max-width: 400px;
@@ -191,23 +180,44 @@ h2, h3, h4, h5, h6 {
   font-size: 1rem;
 }
 
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 1rem;
-  padding: 1rem;
+/* Projects Section */
+#projects-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
 }
 
-.projects article {
+/* Container for the Pie Chart + Project Grid */
+.projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2em;
+}
+
+/* The Projects Grid */
+.projects-list {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3-column layout */
+  gap: 2em;
+  padding: 2em;
+  box-sizing: border-box;
+}
+
+/* Individual Project Card */
+.projects-list article {
   background: white;
   padding: 1rem;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.projects article img {
+.projects-list article img {
   max-width: 100%;
   height: auto;
   object-fit: cover;
@@ -215,36 +225,15 @@ h2, h3, h4, h5, h6 {
   margin-bottom: 0.75rem;
 }
 
-.projects h2,
-.projects h3 {
+.projects-list h2,
+.projects-list h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
-.projects p {
+.projects-list p {
   font-size: 0.95rem;
   line-height: 1.4;
 }
 
-#projects-pie-plot {
-  max-width: 20em;
-  margin-block: 2em;
-  overflow: visible;
-}
-
-.projects {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2em;
-  width: 100%;
-}
-
-.projects-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2em;
-}
 
