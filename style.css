@@ -252,12 +252,13 @@ h2, h3, h4, h5, h6 {
 }
 
 .projects-list article img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 250px; /* instead of auto */
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 0.75rem;
 }
+
 
 .projects-list h2,
 .projects-list h3 {
@@ -299,4 +300,13 @@ path {
 
 .selected:is(path) {
   fill: var(--color);
+}
+
+.home-projects img {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 10px;
 }
