@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const title = document.querySelector('.projects-title');
 
   if (projects && projects.length > 0) {
+    // Clear ONLY old project articles, NOT the entire container
+    container.querySelectorAll('article').forEach(article => article.remove());
+
     renderProjects(projects, container, 'h2');
     if (title) title.textContent = projects.length;
   } else {
-    container.innerHTML = '<p>No projects found.</p>';
+    container.innerHTML += '<p>No projects found.</p>'; // append instead of replace
   }
 });
+
