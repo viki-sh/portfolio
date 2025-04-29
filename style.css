@@ -68,8 +68,7 @@ label {
   grid-template-columns: subgrid;
 }
 
-label,
-button {
+label, button {
   grid-column: 1 / -1;
 }
 
@@ -78,11 +77,7 @@ h1 {
   font-size: 300%;
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2, h3, h4, h5, h6 {
   line-height: 1.1;
   text-wrap: balance;
   font-size: 150%;
@@ -275,6 +270,7 @@ h6 {
   line-height: 1.4;
 }
 
+/* Search Bar Styling */
 .search-bar {
   width: 100%;
   max-width: 600px;
@@ -285,4 +281,22 @@ h6 {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-family: inherit;
+}
+
+/* Step 5: Hover and click effects */
+svg:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+path {
+  transition: 300ms;
+  cursor: pointer;
+}
+
+.selected {
+  --color: oklch(68% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
 }
