@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sliceGenerator = d3.pie().value(d => d.value);
     const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
     const arcs = sliceGenerator(data);
-
     const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const svg = d3.select('#projects-plot');

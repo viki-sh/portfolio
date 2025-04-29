@@ -11,13 +11,11 @@ body {
   padding: 1rem;
 }
 
-/* Headshot */
 .headshot {
   width: 500px;
   height: auto;
 }
 
-/* Color scheme toggle */
 label.color-scheme {
   position: absolute;
   top: 1rem;
@@ -26,7 +24,6 @@ label.color-scheme {
   font-family: inherit;
 }
 
-/* Nav */
 nav {
   display: flex;
   margin-bottom: 1rem;
@@ -53,7 +50,6 @@ nav a:hover {
   background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
 }
 
-/* Form */
 form {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -72,7 +68,6 @@ label, button {
   grid-column: 1 / -1;
 }
 
-/* Headings */
 h1 {
   font-size: 300%;
 }
@@ -83,12 +78,10 @@ h2, h3, h4, h5, h6 {
   font-size: 150%;
 }
 
-/* Name Centering */
 .name {
   text-align: center;
 }
 
-/* Resume Section */
 .resume h1 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -147,7 +140,6 @@ h2, h3, h4, h5, h6 {
   margin-top: 0.5em;
 }
 
-/* Profile Stats Section */
 #profile-stats {
   margin-top: 2rem;
   max-width: 400px;
@@ -176,7 +168,7 @@ h2, h3, h4, h5, h6 {
   font-size: 1rem;
 }
 
-/* Projects Section */
+/* Project Section */
 .projects {
   display: flex;
   flex-direction: column;
@@ -185,7 +177,6 @@ h2, h3, h4, h5, h6 {
   gap: 2em;
 }
 
-/* Pie Chart + Legend */
 .pie-container {
   display: flex;
   flex-wrap: wrap;
@@ -231,7 +222,6 @@ h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-/* Project Cards Grid */
 .projects-list {
   width: 100%;
   max-width: 1200px;
@@ -254,7 +244,8 @@ h2, h3, h4, h5, h6 {
 .projects-list article img {
   max-width: 100%;
   height: auto;
-  object-fit: cover;
+  max-height: 300px;
+  object-fit: contain;
   border-radius: 6px;
   margin-bottom: 0.75rem;
 }
@@ -270,7 +261,6 @@ h2, h3, h4, h5, h6 {
   line-height: 1.4;
 }
 
-/* Search Bar Styling */
 .search-bar {
   width: 100%;
   max-width: 600px;
@@ -283,7 +273,7 @@ h2, h3, h4, h5, h6 {
   font-family: inherit;
 }
 
-/* Step 5: Hover and click effects */
+/* Interactivity (Step 5) */
 svg:has(path:hover) path:not(:hover) {
   opacity: 0.5;
 }
