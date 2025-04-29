@@ -17,23 +17,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   let query = '';
   let selectedIndex = -1;
 
-  const rolledData = d3.rollups(projects, v => v.length, d => d.year);
-  const pieData = rolledData.map(([year, count]) => ({ label: year, value: count }));
+  function rollupData(data) {
+    return d3.rollups(data, v => v.length, d => d.year)
+             .map(([label, value]) => ({ label, value }));
+  }
 
-  function drawPieChart() {
-    const sliceGenerator = d3.pie().value(d => d.value);
-    const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-    const arcs = sliceGenerator(pieData);
+  function drawPieChart(data) {
+    const pie = d3.pie().value(d => d.value);
+    const arc = d3.arc().innerRadius(0).outerRadius(50);
+    const arcs = pie(data);
+
     const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
     const svg = d3.select('#projects-plot');
     svg.selectAll('path').remove();
 
-    arcs.forEach((arc, i) => {
+    arcs.forEach((arcData, i) => {
       svg.append('path')
-        .attr('d', arcGenerator(arc))
+        .attr('d', arc(arcData))
         .attr('fill', colors(i))
         .attr('data-idx', i)
+        .attr('class', i === selectedIndex ? 'selected' : null)
         .on('click', () => {
           selectedIndex = selectedIndex === i ? -1 : i;
           update();
@@ -43,10 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const legend = d3.select('.legend');
     legend.selectAll('li').remove();
 
-    pieData.forEach((d, i) => {
+    data.forEach((d, i) => {
       legend.append('li')
         .attr('style', `--color: ${colors(i)}`)
-        .attr('class', 'legend-item')
+        .attr('class', i === selectedIndex ? 'legend-item selected' : 'legend-item')
         .attr('data-idx', i)
         .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
         .on('click', () => {
@@ -60,37 +64,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     let filteredProjects = projects;
 
     if (query.trim() !== '') {
-      filteredProjects = filteredProjects.filter(project => {
-        const values = Object.values(project).join('\n').toLowerCase();
-        return values.includes(query.toLowerCase());
-      });
+      filteredProjects = filteredProjects.filter(p =>
+        Object.values(p).join('\n').toLowerCase().includes(query.toLowerCase())
+      );
     }
 
+    const pieData = rollupData(filteredProjects);
+
+    let visibleProjects = filteredProjects;
     if (selectedIndex !== -1 && pieData[selectedIndex]) {
       const selectedYear = pieData[selectedIndex].label;
-      filteredProjects = filteredProjects.filter(p => p.year === selectedYear);
+      visibleProjects = filteredProjects.filter(p => p.year === selectedYear);
     }
 
-    renderProjects(filteredProjects, projectsContainer, 'h2');
+    renderProjects(visibleProjects, projectsContainer, 'h2');
+    if (title) title.textContent = visibleProjects.length;
 
-    d3.selectAll('path')
-      .attr('class', (_, i) => (i === selectedIndex ? 'selected' : null));
-
-    d3.selectAll('.legend li')
-      .attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'));
-
-    if (title) title.textContent = filteredProjects.length;
+    drawPieChart(pieData);
   }
 
   if (projects && projects.length > 0) {
-    drawPieChart();
     update();
   } else {
     projectsContainer.innerHTML = '<p>No projects found.</p>';
   }
 
-  searchInput.addEventListener('input', (event) => {
-    query = event.target.value;
+  searchInput.addEventListener('input', (e) => {
+    query = e.target.value;
     selectedIndex = -1;
     update();
   });
