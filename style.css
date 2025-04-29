@@ -289,7 +289,6 @@ path.selected {
   opacity: 1;
 }
 
-/* Fix layout for home page projects without affecting full projects page */
 .home-projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
