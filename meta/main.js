@@ -47,6 +47,12 @@ function processCommits(data) {
 
 // Step 1.3: Render summary stats
 function renderCommitInfo(data, commits) {
+  // Add section heading
+  d3.select('#stats')
+    .append('h2')
+    .text('Summary');
+
+  // Add stats block
   const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
   // Total LOC
@@ -57,7 +63,7 @@ function renderCommitInfo(data, commits) {
   dl.append('dt').text('Commits');
   dl.append('dd').text(commits.length);
 
-  // Number of unique files
+  // Unique files
   const numFiles = d3.group(data, d => d.file).size;
   dl.append('dt').text('Files');
   dl.append('dd').text(numFiles);
@@ -67,20 +73,22 @@ function renderCommitInfo(data, commits) {
   dl.append('dt').text('Max depth');
   dl.append('dd').text(maxDepth);
 
-  // Longest line (by character length)
+  // Longest line (by characters)
   const longestLine = d3.max(data, d => d.length);
   dl.append('dt').text('Longest line');
   dl.append('dd').text(longestLine);
 
-  // Max lines in any one file
-  const fileLineCounts = d3.rollups(
-    data,
-    v => v.length,
-    d => d.file
-  );
+  // Max lines in a file
+  const fileLineCounts = d3.rollups(data, v => v.length, d => d.file);
   const maxLines = d3.max(fileLineCounts, d => d[1]);
   dl.append('dt').text('Max lines');
   dl.append('dd').text(maxLines);
+
+  // Caption
+  d3.select('#stats')
+    .append('div')
+    .attr('class', 'caption')
+    .html('<strong>Figure 1:</strong> Example of a summary stats section');
 }
 
 // Main flow

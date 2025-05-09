@@ -315,24 +315,44 @@ path.selected {
   display: block;
 }
 
+/* Container around the whole summary block */
+#stats {
+  border: 1px solid #ccc;
+  padding: 1.5em;
+  margin-top: 2em;
+  background-color: #fff;
+  font-family: system-ui, sans-serif;
+}
+
+/* Optional heading (e.g. "Summary") */
+#stats h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+/* The grid layout */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1em 2em;
-  margin-top: 2em;
-  font-size: 0.95rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1.5em 2em;
 }
 
+/* Labels like "COMMITS", "FILES" */
 .stats dt {
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  color: #555;
+  letter-spacing: 0.03em;
+  font-size: 0.7rem;
+  color: #6b7280; /* light gray */
+  margin-bottom: 0.25em;
 }
 
+/* Values like 59, 11, 898 */
 .stats dd {
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 500;
+  color: #111827; /* dark gray */
 }
