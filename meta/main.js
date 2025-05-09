@@ -74,10 +74,6 @@ function renderCommitInfo(data, commits) {
   dl.append('dt').text('Max lines');
   dl.append('dd').text(maxLines);
 
-  d3.select('#stats')
-    .append('div')
-    .attr('class', 'caption')
-    .html('<strong>Figure 1:</strong> Example of a summary stats section');
 }
 
 // Step 2: Render scatterplot of time/day of commits
