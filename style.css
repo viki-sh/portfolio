@@ -339,25 +339,28 @@ body {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1.5em 2em;
+  align-items: start;
+  text-align: left; /* ensures labels and values are left-aligned */
 }
 
 .stats dt {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #6b7280;
   margin-bottom: 0.25em;
 }
 
 .stats dd {
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: #111827;
 }
+
 
 .gridlines line {
   stroke: #4b5563;
