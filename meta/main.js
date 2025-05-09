@@ -10,17 +10,16 @@ async function loadData() {
     date: new Date(row.date + 'T00:00' + row.timezone),
     datetime: new Date(row.datetime),
   }));
-
   return data;
 }
 
 // Step 1.2: Process commit information
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
-    let first = lines[0];
-    let { author, date, time, timezone, datetime } = first;
+    const first = lines[0];
+    const { author, date, time, timezone, datetime } = first;
 
-    let ret = {
+    const ret = {
       id: commit,
       url: 'https://github.com/viki-sh/portfolio/commit/' + commit,
       author,
@@ -95,16 +94,16 @@ function renderScatterPlot(data, commits) {
     .domain([0, 24])
     .range([height, 0]);
 
-  // Gridlines (horizontal)
+  // Gridlines
   svg.append('g')
     .attr('class', 'gridlines')
     .call(
       d3.axisLeft(yScale)
-        .tickFormat('')
         .tickSize(-width)
+        .tickFormat('')
     );
 
-  // Draw circles
+  // Scatter dots
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -128,7 +127,11 @@ function renderScatterPlot(data, commits) {
 
   // Y Axis
   svg.append('g')
-    .call(d3.axisLeft(yScale).ticks(8).tickFormat(d => String(d % 24).padStart(2, '0') + ':00'))
+    .call(
+      d3.axisLeft(yScale)
+        .ticks(8)
+        .tickFormat(d => String(d % 24).padStart(2, '0') + ':00')
+    )
     .append('text')
     .attr('x', -40)
     .attr('y', -10)
@@ -137,8 +140,8 @@ function renderScatterPlot(data, commits) {
     .text('Hour of Day');
 }
 
-// Load, process, and render
-let data = await loadData();
-let commits = processCommits(data);
+// Main entry point
+const data = await loadData();
+const commits = processCommits(data);
 renderCommitInfo(data, commits);
 renderScatterPlot(data, commits);
