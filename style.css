@@ -315,12 +315,24 @@ path.selected {
   display: block;
 }
 
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1em 2em;
+  margin-top: 2em;
+  font-size: 0.95rem;
+}
+
 .stats dt {
   font-weight: bold;
-  margin-top: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: #555;
 }
 
 .stats dd {
-  margin-left: 1em;
-  margin-bottom: 0.5em;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
