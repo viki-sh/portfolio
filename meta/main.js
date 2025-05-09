@@ -1,5 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
+// Step 1.1: Load and parse CSV
 async function loadData() {
   const data = await d3.csv('/portfolio/meta/loc.csv', (row) => ({
     ...row,
@@ -13,6 +14,7 @@ async function loadData() {
   return data;
 }
 
+// Step 1.2: Process commit information
 function processCommits(data) {
   return d3
     .groups(data, d => d.commit)
@@ -43,6 +45,22 @@ function processCommits(data) {
     });
 }
 
+// Step 1.3: Render summary stats
+function renderCommitInfo(data, commits) {
+  const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+
+  // Total LOC
+  dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
+  dl.append('dd').text(data.length);
+
+  // Total commits
+  dl.append('dt').text('Total commits');
+  dl.append('dd').text(commits.length);
+
+  // You can add more stats later if needed
+}
+
+// Main flow
 let data = await loadData();
 let commits = processCommits(data);
-console.log(commits);
+renderCommitInfo(data, commits);

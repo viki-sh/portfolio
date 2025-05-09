@@ -314,3 +314,13 @@ path.selected {
   border-radius: 6px;
   display: block;
 }
+
+.stats dt {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.stats dd {
+  margin-left: 1em;
+  margin-bottom: 0.5em;
+}
