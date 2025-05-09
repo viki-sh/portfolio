@@ -364,7 +364,7 @@ body {
 
 .gridlines line {
   color: #6b7280;
-  stroke-width: 1.5;        /* Slightly thicker */
+  stroke-width: 1;        /* Slightly thicker */
   stroke-opacity: .9;        /* Fully opaque */
   shape-rendering: crispEdges;
 }
