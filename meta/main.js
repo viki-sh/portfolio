@@ -10,6 +10,7 @@ async function loadData() {
     datetime: new Date(row.datetime),
   }));
 
+  console.log(data); 
   return data;
 }
 
