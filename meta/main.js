@@ -109,6 +109,29 @@ function renderScatterPlot(data, commits) {
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', 5)
     .attr('fill', 'steelblue');
+
+  // Add axes
+  const xAxis = d3.axisBottom(xScale).ticks(6).tickFormat(d3.timeFormat("%b %d"));
+  const yAxis = d3.axisLeft(yScale).ticks(6);
+
+  svg.append('g')
+    .attr('transform', `translate(0, ${height})`)
+    .call(xAxis)
+    .call(g => g.append('text')
+      .attr('x', width)
+      .attr('y', -6)
+      .attr('fill', 'black')
+      .attr('text-anchor', 'end')
+      .text('Date'));
+
+  svg.append('g')
+    .call(yAxis)
+    .call(g => g.append('text')
+      .attr('x', 6)
+      .attr('y', 6)
+      .attr('fill', 'black')
+      .attr('text-anchor', 'start')
+      .text('Hour of Day'));
 }
 
 // Load, process, and render
