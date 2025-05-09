@@ -315,7 +315,6 @@ path.selected {
   display: block;
 }
 
-/* Container around the whole summary block */
 #stats {
   border: 1px solid #ccc;
   padding: 1.5em;
@@ -332,16 +331,17 @@ path.selected {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1.5em 2em;
 }
 
 .stats dt {
-  font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  font-size: 0.9rem;
   color: #6b7280;
+  margin-bottom: 0.25em;
 }
 
 .stats dd {
@@ -349,9 +349,4 @@ path.selected {
   font-size: 1.75rem;
   font-weight: 500;
   color: #111827;
-}
-
-#chart {
-  margin-top: 3em;
-  padding-bottom: 2em;
 }
