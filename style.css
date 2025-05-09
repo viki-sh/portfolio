@@ -363,11 +363,12 @@ body {
 
 
 .gridlines line {
-  stroke: #4b5563;
-  stroke-width: 1;
-  stroke-opacity: 0.6;
+  stroke: #374151;          /* Even darker gray (Tailwind gray-800) */
+  stroke-width: 1.5;        /* Slightly thicker */
+  stroke-opacity: 1;        /* Fully opaque */
   shape-rendering: crispEdges;
 }
+
 
 
 .gridlines path {
