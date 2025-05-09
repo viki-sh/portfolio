@@ -54,10 +54,33 @@ function renderCommitInfo(data, commits) {
   dl.append('dd').text(data.length);
 
   // Total commits
-  dl.append('dt').text('Total commits');
+  dl.append('dt').text('Commits');
   dl.append('dd').text(commits.length);
 
-  // You can add more stats later if needed
+  // Number of unique files
+  const numFiles = d3.group(data, d => d.file).size;
+  dl.append('dt').text('Files');
+  dl.append('dd').text(numFiles);
+
+  // Max depth
+  const maxDepth = d3.max(data, d => d.depth);
+  dl.append('dt').text('Max depth');
+  dl.append('dd').text(maxDepth);
+
+  // Longest line (by character length)
+  const longestLine = d3.max(data, d => d.length);
+  dl.append('dt').text('Longest line');
+  dl.append('dd').text(longestLine);
+
+  // Max lines in any one file
+  const fileLineCounts = d3.rollups(
+    data,
+    v => v.length,
+    d => d.file
+  );
+  const maxLines = d3.max(fileLineCounts, d => d[1]);
+  dl.append('dt').text('Max lines');
+  dl.append('dd').text(maxLines);
 }
 
 // Main flow
