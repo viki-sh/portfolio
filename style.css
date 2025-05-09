@@ -324,20 +324,34 @@ path.selected {
   font-family: system-ui, sans-serif;
 }
 
-/* Optional heading (e.g. "Summary") */
 #stats h2 {
-  font-size: 1.5rem; /* bigger heading */
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.25em;
 }
 
-/* Labels like "COMMITS", "FILES" */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1.5em 2em;
+}
+
 .stats dt {
-  font-size: 0.9rem; /* was 0.7rem */
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #6b7280;
 }
 
-/* Values like 59, 11, 898 */
 .stats dd {
-  font-size: 1.75rem; /* was 1.5rem */
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #111827;
 }
 
+#chart {
+  margin-top: 3em;
+  padding-bottom: 2em;
+}
