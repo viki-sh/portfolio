@@ -109,9 +109,13 @@ function renderLanguageBreakdown(selection, commits, xScale, yScale) {
     const prop = count / lines.length;
     const formatted = d3.format('.1%')(prop);
     container.innerHTML += `
-      <dt>${lang}</dt>
-      <dd>${count} lines (${formatted})</dd>
+    <div class="lang-stat">
+        <dt>${lang}</dt>
+        <dd>${count} lines (${formatted})</dd>
+    </div>
     `;
+
+
   }
 }
 
