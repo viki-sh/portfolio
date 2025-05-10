@@ -389,7 +389,7 @@ dl.info[hidden]:not(:hover, :focus-within) {
 }
 
 dl.tooltip {
-  position: fixed;
+  position: absolute;
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid #ccc;
   padding: 0.75rem 1rem;
