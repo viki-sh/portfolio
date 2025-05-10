@@ -374,3 +374,35 @@ body {
 .gridlines path {
   display: none;
 }
+
+dl.info {
+  display: grid;
+  grid-template-columns: max-content auto;
+  gap: 0.25em 1em;
+  font-size: 0.9rem;
+}
+
+dl.tooltip {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  z-index: 10;
+  pointer-events: none;
+  width: fit-content;
+}
+
+dl.tooltip dt {
+  font-weight: bold;
+  color: #4b5563;
+}
+
+dl.tooltip dd {
+  margin: 0 0 0.5em 0;
+  word-break: break-word;
+}

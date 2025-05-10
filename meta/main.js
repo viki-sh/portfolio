@@ -1,6 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
-// Step 1.1: Load and parse CSV
 async function loadData() {
   const data = await d3.csv('/portfolio/meta/loc.csv', (row) => ({
     ...row,
@@ -13,7 +12,6 @@ async function loadData() {
   return data;
 }
 
-// Step 1.2: Process commit information
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
@@ -42,7 +40,6 @@ function processCommits(data) {
   });
 }
 
-// Step 1.3: Render summary stats
 function renderCommitInfo(data, commits) {
   d3.select('#stats').append('h2').text('Summary');
 
@@ -72,7 +69,25 @@ function renderCommitInfo(data, commits) {
   dl.append('dd').text(maxLines);
 }
 
-// Step 2: Render scatterplot of time/day of commits
+function renderTooltipContent(commit) {
+  const link = document.getElementById('commit-link');
+  const date = document.getElementById('commit-date');
+
+  if (!commit || Object.keys(commit).length === 0) {
+    link.textContent = '';
+    link.href = '';
+    date.textContent = '';
+    return;
+  }
+
+  link.href = commit.url;
+  link.textContent = commit.id;
+  date.textContent = commit.datetime?.toLocaleString('en', {
+    dateStyle: 'full',
+    timeStyle: 'short',
+  });
+}
+
 function renderScatterPlot(data, commits) {
   const margin = { top: 20, right: 30, bottom: 50, left: 60 };
   const width = 1000 - margin.left - margin.right;
@@ -103,7 +118,7 @@ function renderScatterPlot(data, commits) {
         .tickFormat('')
     );
 
-  // Scatter dots
+  // Dots
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -112,7 +127,13 @@ function renderScatterPlot(data, commits) {
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', 5)
-    .attr('fill', 'steelblue');
+    .attr('fill', 'steelblue')
+    .on('mouseenter', (event, d) => {
+      renderTooltipContent(d);
+    })
+    .on('mouseleave', () => {
+      renderTooltipContent({});
+    });
 
   // X Axis
   svg.append('g')
@@ -140,7 +161,7 @@ function renderScatterPlot(data, commits) {
     .text('Hour of Day');
 }
 
-// Main entry point
+// Main flow
 const data = await loadData();
 const commits = processCommits(data);
 renderCommitInfo(data, commits);
