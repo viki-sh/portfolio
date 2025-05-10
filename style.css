@@ -380,24 +380,22 @@ dl.info {
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
-  transition: opacity 500ms, visibility 500ms;
-}
-
-dl.info[hidden]:not(:hover, :focus-within) {
-  opacity: 0;
-  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 dl.tooltip {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.95);
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: white;
   border: 1px solid #ccc;
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  pointer-events: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   font-size: 0.9rem;
+  z-index: 100;
+  pointer-events: none;
+  width: fit-content;
 }
 
 dl.tooltip dt {
@@ -408,4 +406,9 @@ dl.tooltip dt {
 dl.tooltip dd {
   margin: 0 0 0.5em 0;
   word-break: break-word;
+}
+
+dl.info[hidden] {
+  opacity: 0;
+  visibility: hidden;
 }

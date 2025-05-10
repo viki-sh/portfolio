@@ -1,95 +1,76 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
-// Load and parse CSV
 async function loadData() {
-  const data = await d3.csv('/portfolio/meta/loc.csv', (row) => ({
+  const data = await d3.csv('/portfolio/meta/loc.csv', row => ({
     ...row,
-    line: Number(row.line),
-    depth: Number(row.depth),
-    length: Number(row.length),
+    line: +row.line,
+    depth: +row.depth,
+    length: +row.length,
     date: new Date(row.date + 'T00:00' + row.timezone),
     datetime: new Date(row.datetime),
   }));
   return data;
 }
 
-// Process commit information
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
-    const first = lines[0];
+    const { author, date, time, timezone, datetime } = lines[0];
     return {
       id: commit,
-      url: 'https://github.com/viki-sh/portfolio/commit/' + commit,
-      author: first.author,
-      date: first.date,
-      time: first.time,
-      timezone: first.timezone,
-      datetime: first.datetime,
-      hourFrac: first.datetime.getHours() + first.datetime.getMinutes() / 60,
+      url: `https://github.com/viki-sh/portfolio/commit/${commit}`,
+      author,
+      date,
+      time,
+      timezone,
+      datetime,
+      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
       totalLines: lines.length,
-      lines,
+      lines
     };
   });
 }
 
-// Update tooltip content
-function renderTooltipContent(commit) {
-  const link = document.getElementById('commit-link');
-  const date = document.getElementById('commit-date');
-
-  if (!commit || Object.keys(commit).length === 0) return;
-
-  link.href = commit.url;
-  link.textContent = commit.id;
-  date.textContent = commit.datetime?.toLocaleString('en', {
-    dateStyle: 'full',
-    timeStyle: 'short',
-  });
-}
-
-// Toggle tooltip visibility
-function updateTooltipVisibility(isVisible) {
-  const tooltip = document.getElementById('commit-tooltip');
-  tooltip.hidden = !isVisible;
-}
-
-// Move tooltip near mouse
-function updateTooltipPosition(event) {
-  const tooltip = document.getElementById('commit-tooltip');
-  tooltip.style.left = `${event.pageX + 12}px`;
-  tooltip.style.top = `${event.pageY + 12}px`;
-}
-
-// Render stats
 function renderCommitInfo(data, commits) {
   d3.select('#stats').append('h2').text('Summary');
   const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
   dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
   dl.append('dd').text(data.length);
-
   dl.append('dt').text('Commits');
   dl.append('dd').text(commits.length);
-
-  const numFiles = d3.group(data, d => d.file).size;
   dl.append('dt').text('Files');
-  dl.append('dd').text(numFiles);
-
-  const maxDepth = d3.max(data, d => d.depth);
+  dl.append('dd').text(new Set(data.map(d => d.file)).size);
   dl.append('dt').text('Max depth');
-  dl.append('dd').text(maxDepth);
-
-  const longestLine = d3.max(data, d => d.length);
+  dl.append('dd').text(d3.max(data, d => d.depth));
   dl.append('dt').text('Longest line');
-  dl.append('dd').text(longestLine);
-
-  const fileLineCounts = d3.rollups(data, v => v.length, d => d.file);
-  const maxLines = d3.max(fileLineCounts, d => d[1]);
+  dl.append('dd').text(d3.max(data, d => d.length));
   dl.append('dt').text('Max lines');
-  dl.append('dd').text(maxLines);
+  dl.append('dd').text(d3.max(d3.rollups(data, v => v.length, d => d.file), d => d[1]));
 }
 
-// Scatterplot
+function renderTooltipContent(commit) {
+  const link = document.getElementById('commit-link');
+  const date = document.getElementById('commit-date');
+  if (!commit) return;
+  link.href = commit.url;
+  link.textContent = commit.id;
+  date.textContent = commit.datetime?.toLocaleString('en', {
+    dateStyle: 'full',
+    timeStyle: 'short'
+  });
+}
+
+function updateTooltipVisibility(visible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.hidden = !visible;
+}
+
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.style.left = `${event.pageX + 12}px`;
+  tooltip.style.top = `${event.pageY + 12}px`;
+}
+
 function renderScatterPlot(data, commits) {
   const margin = { top: 20, right: 30, bottom: 50, left: 60 };
   const width = 1000 - margin.left - margin.right;
@@ -107,16 +88,12 @@ function renderScatterPlot(data, commits) {
     .range([0, width])
     .nice();
 
-  const yScale = d3.scaleLinear()
-    .domain([0, 24])
-    .range([height, 0]);
+  const yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
 
-  // Gridlines
   svg.append('g')
     .attr('class', 'gridlines')
     .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(''));
 
-  // Dots with tooltip behavior
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -126,8 +103,8 @@ function renderScatterPlot(data, commits) {
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', 5)
     .attr('fill', 'steelblue')
-    .on('mouseenter', (event, commit) => {
-      renderTooltipContent(commit);
+    .on('mouseenter', (event, d) => {
+      renderTooltipContent(d);
       updateTooltipVisibility(true);
       updateTooltipPosition(event);
     })
@@ -136,7 +113,6 @@ function renderScatterPlot(data, commits) {
       updateTooltipVisibility(false);
     });
 
-  // X Axis
   svg.append('g')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale).ticks(6).tickFormat(d3.timeFormat('%b %d')))
@@ -147,9 +123,8 @@ function renderScatterPlot(data, commits) {
     .attr('text-anchor', 'end')
     .text('Date');
 
-  // Y Axis
   svg.append('g')
-    .call(d3.axisLeft(yScale).ticks(8).tickFormat(d => String(d % 24).padStart(2, '0') + ':00'))
+    .call(d3.axisLeft(yScale).ticks(8).tickFormat(d => `${String(d).padStart(2, '0')}:00`))
     .append('text')
     .attr('x', -40)
     .attr('y', -10)
@@ -158,7 +133,7 @@ function renderScatterPlot(data, commits) {
     .text('Hour of Day');
 }
 
-// Run all
+// Run
 const data = await loadData();
 const commits = processCommits(data);
 renderCommitInfo(data, commits);
