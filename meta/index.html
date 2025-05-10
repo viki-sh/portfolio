@@ -4,15 +4,21 @@
   <meta charset="UTF-8" />
   <title>Meta | Viki Shi</title>
   <link rel="stylesheet" href="/portfolio/style.css" />
-  <script type="module" src="/portfolio/global.js" defer></script>
   <script type="module" src="main.js" defer></script>
 </head>
 <body>
+  <label class="color-scheme">
+    <input type="checkbox" id="dark-toggle" /> Dark mode
+  </label>
+
   <h1>Summary</h1>
   <div id="stats"></div>
 
   <h2>Commits by time of day</h2>
   <div id="chart"></div>
+
+  <p id="selection-count">No commits selected</p>
+  <dl id="language-breakdown" class="stats"></dl>
 
   <dl id="commit-tooltip" class="info tooltip" hidden>
     <dt>Commit</dt>
