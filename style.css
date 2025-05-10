@@ -375,15 +375,15 @@ body {
   display: none;
 }
 
+/* Tooltip styles */
 dl.info {
   display: grid;
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
-  transition: opacity 0.5s, visibility 0.5s;
+  transition: opacity 0.3s ease;
 }
-
-dl.info[hidden]:not(:hover, :focus-within) {
+dl.info[hidden] {
   opacity: 0;
   visibility: hidden;
 }
@@ -400,17 +400,26 @@ dl.info[hidden]:not(:hover, :focus-within) {
   font-size: 0.85rem;
   max-width: 280px;
 }
-
 .tooltip dt {
   font-weight: bold;
   color: #374151;
 }
-
 .tooltip dd {
   margin: 0 0 0.5em 0;
   word-break: break-word;
 }
 
+/* Highlighted dots */
 circle.selected {
-  fill: #f6b66b;
+  fill: #f6b6bb;
+}
+
+/* Gridlines */
+.gridlines line {
+  stroke: #4b5563;
+  stroke-opacity: 0.5;
+  shape-rendering: crispEdges;
+}
+.gridlines path {
+  display: none;
 }
