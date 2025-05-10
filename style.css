@@ -380,21 +380,24 @@ dl.info {
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
+  transition: opacity 500ms, visibility 500ms;
+}
+
+dl.info[hidden]:not(:hover, :focus-within) {
+  opacity: 0;
+  visibility: hidden;
 }
 
 dl.tooltip {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid #ccc;
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 0.9rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
   pointer-events: none;
-  width: fit-content;
+  font-size: 0.9rem;
 }
 
 dl.tooltip dt {
