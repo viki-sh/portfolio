@@ -1,7 +1,27 @@
-html {
+:root {
+  color-scheme: light;
+  --bg-color: #ffffff;
+  --text-color: #111827;
+  --stat-bg: #ffffff;
+  --tooltip-bg: #ffffff;
+  --tooltip-text: #111827;
+  --gridline-color: #6b7280;
   --color-accent: oklch(50% 30% 200);
+}
+
+[data-theme='dark'] {
+  --bg-color: #111827;
+  --text-color: #f9fafb;
+  --stat-bg: #1f2937;
+  --tooltip-bg: #1f2937;
+  --tooltip-text: #f9fafb;
+  --gridline-color: #9ca3af;
+}
+
+html {
   accent-color: var(--color-accent);
-  color-scheme: light dark;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 body {
@@ -9,6 +29,10 @@ body {
   max-width: 100ch;
   margin-inline: auto;
   padding: 1rem;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 .headshot {
@@ -82,6 +106,7 @@ h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
+/* Resume */
 .resume h1 {
   font-size: 2.5rem;
   font-weight: 700;
@@ -140,6 +165,7 @@ h2, h3, h4, h5, h6 {
   margin-top: 0.5em;
 }
 
+/* Profile Stats */
 #profile-stats {
   margin-top: 2rem;
   max-width: 400px;
@@ -273,22 +299,7 @@ h2, h3, h4, h5, h6 {
   font-family: inherit;
 }
 
-/* Interactivity (Step 5) */
-svg:has(path:hover) path:not(:hover) {
-  opacity: 0.5;
-}
-
-path {
-  transition: 300ms;
-  cursor: pointer;
-}
-
-path.selected {
-  stroke: black;
-  stroke-width: 2;
-  opacity: 1;
-}
-
+/* Home Projects */
 .home-projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -315,20 +326,12 @@ path.selected {
   display: block;
 }
 
-/* Base font and layout */
-body {
-  font-family: system-ui, sans-serif;
-  font-size: 16px;
-  color: #111827;
-  margin: 2em;
-}
-
 /* Summary Stats Styling */
 #stats {
   border: 1px solid #ccc;
   padding: 1.5em;
   margin-top: 2em;
-  background-color: #fff;
+  background-color: var(--stat-bg);
 }
 
 #stats h2 {
@@ -342,7 +345,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1.5em 2em;
   align-items: start;
-  text-align: left; /* ensures labels and values are left-aligned */
+  text-align: left;
 }
 
 .stats dt {
@@ -358,40 +361,36 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-color);
 }
 
-
+/* Gridlines */
 .gridlines line {
-  color: #6b7280;
-  stroke-width: .5;        
-  stroke-opacity: .7;   
+  stroke: var(--gridline-color);
+  stroke-opacity: 0.5;
   shape-rendering: crispEdges;
 }
-
-
-
 .gridlines path {
   display: none;
 }
 
+/* Tooltip styles */
 dl.info {
   display: grid;
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
-  transition-duration: 500ms;
-  transition-property: opacity, visibility;
+  transition: opacity 0.3s ease;
 }
-
-dl.info[hidden]:not(:hover, :focus-within) {
+dl.info[hidden] {
   opacity: 0;
   visibility: hidden;
 }
 
 .tooltip {
   position: fixed;
-  background: white;
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text);
   border: 1px solid #ccc;
   padding: 0.75rem 1rem;
   border-radius: 6px;
@@ -401,31 +400,32 @@ dl.info[hidden]:not(:hover, :focus-within) {
   font-size: 0.85rem;
   max-width: 280px;
 }
-
 .tooltip dt {
   font-weight: bold;
-  color: #374151;
+  color: var(--tooltip-text);
 }
-
 .tooltip dd {
   margin: 0 0 0.5em 0;
   word-break: break-word;
 }
 
+/* Selected dot highlight */
 circle.selected {
-  fill: #ff6b6b;
+  fill: #f6b6bb;
 }
 
-@keyframes marching-ants {
-  to {
-    stroke-dashoffset: -8;
-  }
+/* Interactivity (Step 5) */
+svg:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
 }
 
-.selection {
-  fill-opacity: 0.1;
+path {
+  transition: 300ms;
+  cursor: pointer;
+}
+
+path.selected {
   stroke: black;
-  stroke-opacity: 0.7;
-  stroke-dasharray: 5 3;
-  animation: marching-ants 2s linear infinite;
+  stroke-width: 2;
+  opacity: 1;
 }

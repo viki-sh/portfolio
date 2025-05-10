@@ -137,7 +137,6 @@ function renderScatterPlot(data, commits) {
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([4, 30]);
   const sortedCommits = d3.sort(commits, d => -d.totalLines);
 
-  // Axes & grid
   svg.append('g').attr('class', 'gridlines')
     .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(''));
   svg.append('g')
@@ -156,7 +155,7 @@ function renderScatterPlot(data, commits) {
     .attr('text-anchor', 'start')
     .text('Hour of Day');
 
-  // Dots
+  // Circles
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -179,7 +178,7 @@ function renderScatterPlot(data, commits) {
       updateTooltipVisibility(false);
     });
 
-  // Brush setup
+  // Brushing
   svg.call(d3.brush()
     .on('start brush end', (event) => {
       const selection = event.selection;
@@ -188,9 +187,11 @@ function renderScatterPlot(data, commits) {
       const selected = renderSelectionCount(selection, commits, xScale, yScale);
       renderLanguageBreakdown(selection, commits, xScale, yScale);
     }));
+
   svg.selectAll('.dots, .overlay ~ *').raise();
 }
 
+// Main
 const data = await loadData();
 const commits = processCommits(data);
 renderCommitInfo(data, commits);
