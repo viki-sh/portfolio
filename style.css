@@ -380,8 +380,7 @@ dl.info {
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
-  transition-duration: 500ms;
-  transition-property: opacity, visibility;
+  transition: opacity 0.5s, visibility 0.5s;
 }
 
 dl.info[hidden]:not(:hover, :focus-within) {
@@ -410,4 +409,8 @@ dl.info[hidden]:not(:hover, :focus-within) {
 .tooltip dd {
   margin: 0 0 0.5em 0;
   word-break: break-word;
+}
+
+circle.selected {
+  fill: #f6b66b;
 }
