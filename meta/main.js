@@ -113,18 +113,21 @@ function renderScatterPlot(data, commits) {
     .domain([0, 24])
     .range([height, 0]);
 
+  // Radius scale using square root for accurate area perception
   const [minLines, maxLines] = d3.extent(commits, d => d.totalLines);
-  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([3, 25]);
+  const rScale = d3.scaleSqrt()
+    .domain([minLines, maxLines])
+    .range([4, 30]); // dot size range
+
+  // Sort commits so smaller circles draw last (on top)
+  const sortedCommits = d3.sort(commits, d => -d.totalLines);
 
   // Gridlines
   svg.append('g')
     .attr('class', 'gridlines')
     .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(''));
 
-  // Sort commits so small dots go on top
-  const sortedCommits = d3.sort(commits, d => -d.totalLines);
-
-  // Dots
+  // Draw dots
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -141,7 +144,7 @@ function renderScatterPlot(data, commits) {
       updateTooltipVisibility(true);
       updateTooltipPosition(event);
     })
-    .on('mousemove', (event) => updateTooltipPosition(event))
+    .on('mousemove', updateTooltipPosition)
     .on('mouseleave', (event) => {
       d3.select(event.currentTarget).style('fill-opacity', 0.7);
       updateTooltipVisibility(false);
