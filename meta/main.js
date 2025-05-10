@@ -108,14 +108,19 @@ function renderLanguageBreakdown(selection, commits, xScale, yScale) {
   for (const [lang, count] of breakdown) {
     const prop = count / lines.length;
     const formatted = d3.format('.1%')(prop);
-    container.innerHTML += `
-    <div class="lang-stat">
-        <dt>${lang}</dt>
-        <dd>${count} lines (${formatted})</dd>
-    </div>
-    `;
 
+    const stat = document.createElement('div');
+    stat.className = 'lang-stat';
 
+    const dt = document.createElement('dt');
+    dt.textContent = lang;
+
+    const dd = document.createElement('dd');
+    dd.textContent = `${count} lines (${formatted})`;
+
+    stat.appendChild(dt);
+    stat.appendChild(dd);
+    container.appendChild(stat);
   }
 }
 
@@ -159,7 +164,6 @@ function renderScatterPlot(data, commits) {
     .attr('text-anchor', 'start')
     .text('Hour of Day');
 
-  // Circles
   svg.append('g')
     .attr('class', 'dots')
     .selectAll('circle')
@@ -182,7 +186,6 @@ function renderScatterPlot(data, commits) {
       updateTooltipVisibility(false);
     });
 
-  // Brushing
   svg.call(d3.brush()
     .on('start brush end', (event) => {
       const selection = event.selection;
