@@ -429,3 +429,22 @@ path.selected {
   stroke-width: 2;
   opacity: 1;
 }
+
+#language-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5em 2em;
+  margin-top: 2em;
+}
+
+#language-breakdown dt {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #111827;
+}
+
+#language-breakdown dd {
+  margin: 0 0 1em 0;
+  font-size: 1rem;
+  color: #374151;
+}
