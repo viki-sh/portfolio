@@ -375,15 +375,16 @@ body {
   display: none;
 }
 
-/* Tooltip styles */
 dl.info {
   display: grid;
   grid-template-columns: max-content auto;
   gap: 0.25em 1em;
   font-size: 0.9rem;
-  transition: opacity 0.3s ease;
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
 }
-dl.info[hidden] {
+
+dl.info[hidden]:not(:hover, :focus-within) {
   opacity: 0;
   visibility: hidden;
 }
@@ -400,26 +401,31 @@ dl.info[hidden] {
   font-size: 0.85rem;
   max-width: 280px;
 }
+
 .tooltip dt {
   font-weight: bold;
   color: #374151;
 }
+
 .tooltip dd {
   margin: 0 0 0.5em 0;
   word-break: break-word;
 }
 
-/* Highlighted dots */
 circle.selected {
-  fill: #f6b6bb;
+  fill: #ff6b6b;
 }
 
-/* Gridlines */
-.gridlines line {
-  stroke: #4b5563;
-  stroke-opacity: 0.5;
-  shape-rendering: crispEdges;
+@keyframes marching-ants {
+  to {
+    stroke-dashoffset: -8;
+  }
 }
-.gridlines path {
-  display: none;
+
+.selection {
+  fill-opacity: 0.1;
+  stroke: black;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 5 3;
+  animation: marching-ants 2s linear infinite;
 }

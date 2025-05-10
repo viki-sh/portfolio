@@ -1,4 +1,3 @@
-// main.js
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 async function loadData() {
@@ -16,41 +15,37 @@ async function loadData() {
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
-    const { author, date, time, timezone, datetime } = first;
-    const ret = {
+    return {
       id: commit,
       url: 'https://github.com/viki-sh/portfolio/commit/' + commit,
-      author, date, time, timezone, datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+      author: first.author,
+      date: first.date,
+      time: first.time,
+      timezone: first.timezone,
+      datetime: first.datetime,
+      hourFrac: first.datetime.getHours() + first.datetime.getMinutes() / 60,
       totalLines: lines.length,
+      lines,
     };
-    Object.defineProperty(ret, 'lines', {
-      value: lines,
-      writable: false,
-      enumerable: false,
-      configurable: true
-    });
-    return ret;
   });
 }
 
 function renderCommitInfo(data, commits) {
   d3.select('#stats').append('h2').text('Summary');
   const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+
   dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
   dl.append('dd').text(data.length);
   dl.append('dt').text('Commits');
   dl.append('dd').text(commits.length);
-  const numFiles = d3.group(data, d => d.file).size;
   dl.append('dt').text('Files');
-  dl.append('dd').text(numFiles);
+  dl.append('dd').text(d3.group(data, d => d.file).size);
   dl.append('dt').text('Max depth');
   dl.append('dd').text(d3.max(data, d => d.depth));
   dl.append('dt').text('Longest line');
   dl.append('dd').text(d3.max(data, d => d.length));
-  const fileLineCounts = d3.rollups(data, v => v.length, d => d.file);
   dl.append('dt').text('Max lines');
-  dl.append('dd').text(d3.max(fileLineCounts, d => d[1]));
+  dl.append('dd').text(d3.max(d3.rollups(data, v => v.length, d => d.file), d => d[1]));
 }
 
 function renderTooltipContent(commit) {
@@ -60,7 +55,8 @@ function renderTooltipContent(commit) {
   link.href = commit.url;
   link.textContent = commit.id;
   date.textContent = commit.datetime?.toLocaleString('en', {
-    dateStyle: 'full', timeStyle: 'short'
+    dateStyle: 'full',
+    timeStyle: 'short'
   });
 }
 
@@ -75,26 +71,55 @@ function updateTooltipPosition(event) {
   tooltip.style.top = `${event.clientY + 10}px`;
 }
 
-function isCommitSelected(selection, d, xScale, yScale) {
+function isCommitSelected(selection, commit, xScale, yScale) {
   if (!selection) return false;
   const [[x0, y0], [x1, y1]] = selection;
-  const cx = xScale(d.datetime);
-  const cy = yScale(d.hourFrac);
-  return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+  const x = xScale(commit.datetime);
+  const y = yScale(commit.hourFrac);
+  return x0 <= x && x <= x1 && y0 <= y && y <= y1;
 }
 
 function renderSelectionCount(selection, commits, xScale, yScale) {
-  const selected = selection
+  const selectedCommits = selection
     ? commits.filter(d => isCommitSelected(selection, d, xScale, yScale))
     : [];
-  document.getElementById('selection-count').textContent =
-    `${selected.length || 'No'} commits selected`;
+
+  document.querySelector('#selection-count').textContent =
+    `${selectedCommits.length || 'No'} commits selected`;
+
+  return selectedCommits;
+}
+
+function renderLanguageBreakdown(selection, commits, xScale, yScale) {
+  const selectedCommits = selection
+    ? commits.filter(d => isCommitSelected(selection, d, xScale, yScale))
+    : [];
+
+  const container = document.getElementById('language-breakdown');
+  if (selectedCommits.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const lines = selectedCommits.flatMap(d => d.lines);
+  const breakdown = d3.rollup(lines, v => v.length, d => d.type);
+  container.innerHTML = '';
+
+  for (const [lang, count] of breakdown) {
+    const prop = count / lines.length;
+    const formatted = d3.format('.1%')(prop);
+    container.innerHTML += `
+      <dt>${lang}</dt>
+      <dd>${count} lines (${formatted})</dd>
+    `;
+  }
 }
 
 function renderScatterPlot(data, commits) {
   const margin = { top: 20, right: 30, bottom: 50, left: 60 };
   const width = 1000 - margin.left - margin.right;
   const height = 600 - margin.top - margin.bottom;
+
   const svg = d3.select('#chart')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -102,16 +127,41 @@ function renderScatterPlot(data, commits) {
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  const xScale = d3.scaleTime().domain(d3.extent(commits, d => d.datetime)).range([0, width]).nice();
+  const xScale = d3.scaleTime()
+    .domain(d3.extent(commits, d => d.datetime))
+    .range([0, width])
+    .nice();
+
   const yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
-  const rScale = d3.scaleSqrt().domain(d3.extent(commits, d => d.totalLines)).range([4, 30]);
+  const [minLines, maxLines] = d3.extent(commits, d => d.totalLines);
+  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([4, 30]);
   const sortedCommits = d3.sort(commits, d => -d.totalLines);
 
+  // Axes & grid
   svg.append('g').attr('class', 'gridlines')
     .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(''));
+  svg.append('g')
+    .attr('transform', `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale).ticks(6).tickFormat(d3.timeFormat('%b %d')))
+    .append('text')
+    .attr('x', width).attr('y', 35)
+    .attr('fill', 'black')
+    .attr('text-anchor', 'end')
+    .text('Date');
+  svg.append('g')
+    .call(d3.axisLeft(yScale).ticks(8).tickFormat(d => String(d).padStart(2, '0') + ':00'))
+    .append('text')
+    .attr('x', -40).attr('y', -10)
+    .attr('fill', 'black')
+    .attr('text-anchor', 'start')
+    .text('Hour of Day');
 
-  const dots = svg.append('g').attr('class', 'dots')
-    .selectAll('circle').data(sortedCommits).join('circle')
+  // Dots
+  svg.append('g')
+    .attr('class', 'dots')
+    .selectAll('circle')
+    .data(sortedCommits)
+    .join('circle')
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
@@ -124,33 +174,21 @@ function renderScatterPlot(data, commits) {
       updateTooltipPosition(event);
     })
     .on('mousemove', updateTooltipPosition)
-    .on('mouseleave', function () {
-      d3.select(this).style('fill-opacity', 0.7);
+    .on('mouseleave', (event) => {
+      d3.select(event.currentTarget).style('fill-opacity', 0.7);
       updateTooltipVisibility(false);
     });
 
-  svg.append('g')
-    .attr('transform', `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale).ticks(6).tickFormat(d3.timeFormat('%b %d')))
-    .append('text')
-    .attr('x', width).attr('y', 35)
-    .attr('fill', 'black').attr('text-anchor', 'end').text('Date');
-
-  svg.append('g')
-    .call(d3.axisLeft(yScale).ticks(8).tickFormat(d => String(d % 24).padStart(2, '0') + ':00'))
-    .append('text')
-    .attr('x', -40).attr('y', -10)
-    .attr('fill', 'black').attr('text-anchor', 'start').text('Hour of Day');
-
-  svg.append('g')
-    .call(d3.brush()
-      .extent([[0, 0], [width, height]])
-      .on('start brush end', event => {
-        const sel = event.selection;
-        dots.classed('selected', d => isCommitSelected(sel, d, xScale, yScale));
-        renderSelectionCount(sel, commits, xScale, yScale);
-      })
-    );
+  // Brush setup
+  svg.call(d3.brush()
+    .on('start brush end', (event) => {
+      const selection = event.selection;
+      d3.selectAll('circle')
+        .classed('selected', d => isCommitSelected(selection, d, xScale, yScale));
+      const selected = renderSelectionCount(selection, commits, xScale, yScale);
+      renderLanguageBreakdown(selection, commits, xScale, yScale);
+    }));
+  svg.selectAll('.dots, .overlay ~ *').raise();
 }
 
 const data = await loadData();
