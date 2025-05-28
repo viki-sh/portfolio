@@ -437,14 +437,20 @@ path.selected {
   margin-top: 2em;
 }
 
-#language-breakdown dt {
+#language-breakdown .lang-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lang-stat dt {
   font-weight: bold;
   font-size: 1.2rem;
   color: #111827;
 }
 
-#language-breakdown dd {
-  margin: 0 0 1em 0;
+.lang-stat dd {
+  margin: 0;
   font-size: 1rem;
   color: #374151;
 }

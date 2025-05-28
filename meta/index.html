@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Meta | Viki Shi</title>
-  <link rel="stylesheet" href="/portfolio/style.css" />
-  <script type="module" src="/portfolio/global.js" defer></script>
-  <script type="module" src="/portfolio/meta/main.js" defer></script>
-</head>
-<body>
-  <div id="navbar-placeholder"></div>
-  <div id="theme-toggle-placeholder"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meta Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="scrolly-1">
+      <div id="scatter-story">Loading story...</div>
+      <div id="scatter-plot">
+        <div id="chart"></div>
+      </div>
+    </div>
 
-  <h1>Summary</h1>
-  <div id="stats"></div>
+    <div id="slider-wrapper">
+      <label>
+        Show commits until:
+        <input id="commit-progress" type="range" min="0" max="100" value="100" />
+        <time id="commit-time">...</time>
+      </label>
+    </div>
 
-  <h2>Commits by Time of Day</h2>
-  <div id="chart"></div>
+    <dl id="files"></dl>
 
-  <p id="selection-count">No commits selected</p>
-  <dl id="language-breakdown" class="stats"></dl>
-
-  <dl id="commit-tooltip" class="info tooltip" hidden>
-    <dt>Commit</dt>
-    <dd><a href="" id="commit-link" target="_blank"></a></dd>
-    <dt>Date</dt>
-    <dd id="commit-date"></dd>
-  </dl>
-</body>
+    <script type="module" src="meta.js"></script>
+  </body>
 </html>
-
-
