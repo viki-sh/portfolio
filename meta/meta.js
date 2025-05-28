@@ -4,26 +4,30 @@ import scrollama from 'https://cdn.jsdelivr.net/npm/scrollama@3.2.0/+esm';
 let commitProgress = 100;
 let commitMaxTime;
 let filteredCommits = [];
-
 let commits = [];
 
 const xScale = d3.scaleTime();
 const yScale = d3.scaleLinear().domain([0, 1]).range([600, 0]);
 
-fetch('commits.json')
-  .then(res => res.json())
-  .then(data => {
-    commits = data.map(d => ({
-      ...d,
-      datetime: new Date(d.datetime)
-    }));
+d3.csv('loc.csv', d3.autoType).then(raw => {
+  commits = d3.groups(raw, d => d.commit).map(([commit, lines], i) => {
+    const datetime = new Date(lines[0].datetime);
+    return {
+      id: commit,
+      datetime,
+      hourFrac: datetime.getHours() / 24 + datetime.getMinutes() / 1440,
+      totalLines: lines.length,
+      lines,
+      url: lines[0].url || '#'
+    };
+  }).sort((a, b) => d3.ascending(a.datetime, b.datetime));
 
-    processCommits();
-    renderScatterPlot(commits);
-    onTimeSliderChange();
-    generateScrollText();
-    setupScroller();
-  });
+  processCommits();
+  renderScatterPlot(commits);
+  onTimeSliderChange();
+  generateScrollText();
+  setupScroller();
+});
 
 function processCommits() {
   xScale.domain(d3.extent(commits, d => d.datetime)).range([0, 1000]);
@@ -125,7 +129,7 @@ function generateScrollText() {
     .join('div')
     .attr('class', 'step')
     .html((d, i) => `On ${d.datetime.toLocaleString('en', { dateStyle: 'full', timeStyle: 'short' })},
-      I made <a href="${d.url}" target="_blank">${i > 0 ? 'another glorious commit' : 'my first commit'}</a>.
+      I made <a href=\"${d.url}\" target=\"_blank\">${i > 0 ? 'another glorious commit' : 'my first commit'}</a>.
       I edited ${d.totalLines} lines in ${d3.rollups(d.lines, D => D.length, d => d.file).length} files.`);
 }
 
